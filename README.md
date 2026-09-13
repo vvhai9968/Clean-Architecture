@@ -1,6 +1,6 @@
 # Platform Auth Template
 
-Project mẫu .NET 8 theo kiến trúc phân lớp (layered / Clean Architecture–style), chỉ giữ phần **Authentication**. Dùng làm boilerplate khi khởi tạo API mới: copy cấu trúc, giữ quy ước, mở rộng feature theo cùng pattern.
+Project mẫu .NET 8 theo kiến trúc phân lớp (layered / Clean Architecture–style).
 
 | Thành phần | Giá trị |
 |------------|---------|
