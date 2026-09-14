@@ -1,0 +1,466 @@
+[
+  {
+    "code": "BKAV",
+    "name": "BKAV Truyen Nhan",
+    "environment": "UAT",
+    "baseUrl": "https://wstndemo.ehoadon.vn",
+    "isActive": true,
+    "priority": 10,
+    "timeoutSeconds": 90,
+    "authSchemeKey": "none",
+    "authConfig": {},
+    "resilienceConfig": { "maxAttempts": 3, "baseDelayMs": 700 },
+    "_secretKeys": ["PartnerGUID", "PartnerToken"],
+    "_note": "PartnerToken co dang <key_base64>:<iv_base64>. Cau truc object Result chua duoc tai lieu mo ta - khi Bkav cung cap, chi can UPDATE responseMap.result, khong sua code.",
+    "endpoints": [
+      {
+        "operationCode": "send-registration",
+        "httpMethod": "POST",
+        "pathTemplate": "/WSPublicETN.asmx",
+        "contentType": "text/xml",
+        "soapAction": "http://tempuri.org/ExecuteCommand",
+        "args": { "CmdType": "500" },
+        "requestTransforms": [
+          { "key": "bkav-command-data", "options": { "cmdTypeArg": "CmdType" } },
+          { "key": "gzip" },
+          { "key": "aes-cbc", "options": { "secretRef": "PartnerToken", "mode": "CBC", "padding": "PKCS7" } },
+          { "key": "base64" }
+        ],
+        "bodyTemplate": "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><ExecuteCommand xmlns=\"http://tempuri.org/\"><PartnerGUID>{{ cred.PartnerGUID }}</PartnerGUID><EncryptedCommandData>{{ payload }}</EncryptedCommandData></ExecuteCommand></soap:Body></soap:Envelope>",
+        "responseMap": {
+          "envelope": { "format": "json", "payloadPath": "d" },
+          "transforms": [
+            { "key": "gzip" },
+            { "key": "aes-cbc", "options": { "secretRef": "PartnerToken" } },
+            { "key": "base64" }
+          ],
+          "result": { "format": "xml" }
+        }
+      },
+      {
+        "operationCode": "send-invoice-coded",
+        "httpMethod": "POST",
+        "pathTemplate": "/WSPublicETN.asmx",
+        "contentType": "text/xml",
+        "soapAction": "http://tempuri.org/ExecuteCommand",
+        "args": { "CmdType": "501" },
+        "requestTransforms": [
+          { "key": "bkav-command-data", "options": { "cmdTypeArg": "CmdType" } },
+          { "key": "gzip" },
+          { "key": "aes-cbc", "options": { "secretRef": "PartnerToken", "mode": "CBC", "padding": "PKCS7" } },
+          { "key": "base64" }
+        ],
+        "bodyTemplate": "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><ExecuteCommand xmlns=\"http://tempuri.org/\"><PartnerGUID>{{ cred.PartnerGUID }}</PartnerGUID><EncryptedCommandData>{{ payload }}</EncryptedCommandData></ExecuteCommand></soap:Body></soap:Envelope>",
+        "responseMap": {
+          "envelope": { "format": "json", "payloadPath": "d" },
+          "transforms": [
+            { "key": "gzip" },
+            { "key": "aes-cbc", "options": { "secretRef": "PartnerToken" } },
+            { "key": "base64" }
+          ],
+          "result": { "format": "xml" }
+        }
+      },
+      {
+        "operationCode": "send-invoice-uncoded",
+        "httpMethod": "POST",
+        "pathTemplate": "/WSPublicETN.asmx",
+        "contentType": "text/xml",
+        "soapAction": "http://tempuri.org/ExecuteCommand",
+        "args": { "CmdType": "502" },
+        "requestTransforms": [
+          { "key": "bkav-command-data", "options": { "cmdTypeArg": "CmdType" } },
+          { "key": "gzip" },
+          { "key": "aes-cbc", "options": { "secretRef": "PartnerToken", "mode": "CBC", "padding": "PKCS7" } },
+          { "key": "base64" }
+        ],
+        "bodyTemplate": "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><ExecuteCommand xmlns=\"http://tempuri.org/\"><PartnerGUID>{{ cred.PartnerGUID }}</PartnerGUID><EncryptedCommandData>{{ payload }}</EncryptedCommandData></ExecuteCommand></soap:Body></soap:Envelope>",
+        "responseMap": {
+          "envelope": { "format": "json", "payloadPath": "d" },
+          "transforms": [
+            { "key": "gzip" },
+            { "key": "aes-cbc", "options": { "secretRef": "PartnerToken" } },
+            { "key": "base64" }
+          ],
+          "result": { "format": "xml" }
+        }
+      },
+      {
+        "operationCode": "send-error-notice",
+        "httpMethod": "POST",
+        "pathTemplate": "/WSPublicETN.asmx",
+        "contentType": "text/xml",
+        "soapAction": "http://tempuri.org/ExecuteCommand",
+        "args": { "CmdType": "503" },
+        "requestTransforms": [
+          { "key": "bkav-command-data", "options": { "cmdTypeArg": "CmdType" } },
+          { "key": "gzip" },
+          { "key": "aes-cbc", "options": { "secretRef": "PartnerToken", "mode": "CBC", "padding": "PKCS7" } },
+          { "key": "base64" }
+        ],
+        "bodyTemplate": "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><ExecuteCommand xmlns=\"http://tempuri.org/\"><PartnerGUID>{{ cred.PartnerGUID }}</PartnerGUID><EncryptedCommandData>{{ payload }}</EncryptedCommandData></ExecuteCommand></soap:Body></soap:Envelope>",
+        "responseMap": {
+          "envelope": { "format": "json", "payloadPath": "d" },
+          "transforms": [
+            { "key": "gzip" },
+            { "key": "aes-cbc", "options": { "secretRef": "PartnerToken" } },
+            { "key": "base64" }
+          ],
+          "result": { "format": "xml" }
+        }
+      },
+      {
+        "operationCode": "send-summary",
+        "httpMethod": "POST",
+        "pathTemplate": "/WSPublicETN.asmx",
+        "contentType": "text/xml",
+        "soapAction": "http://tempuri.org/ExecuteCommand",
+        "args": { "CmdType": "505" },
+        "requestTransforms": [
+          { "key": "bkav-command-data", "options": { "cmdTypeArg": "CmdType" } },
+          { "key": "gzip" },
+          { "key": "aes-cbc", "options": { "secretRef": "PartnerToken", "mode": "CBC", "padding": "PKCS7" } },
+          { "key": "base64" }
+        ],
+        "bodyTemplate": "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><ExecuteCommand xmlns=\"http://tempuri.org/\"><PartnerGUID>{{ cred.PartnerGUID }}</PartnerGUID><EncryptedCommandData>{{ payload }}</EncryptedCommandData></ExecuteCommand></soap:Body></soap:Envelope>",
+        "responseMap": {
+          "envelope": { "format": "json", "payloadPath": "d" },
+          "transforms": [
+            { "key": "gzip" },
+            { "key": "aes-cbc", "options": { "secretRef": "PartnerToken" } },
+            { "key": "base64" }
+          ],
+          "result": { "format": "xml" }
+        }
+      },
+      {
+        "operationCode": "query-result",
+        "httpMethod": "POST",
+        "pathTemplate": "/WSPublicETN.asmx",
+        "contentType": "text/xml",
+        "soapAction": "http://tempuri.org/ExecuteCommand",
+        "args": { "CmdType": "801" },
+        "requestTransforms": [
+          { "key": "bkav-command-data", "options": { "cmdTypeArg": "CmdType" } },
+          { "key": "gzip" },
+          { "key": "aes-cbc", "options": { "secretRef": "PartnerToken", "mode": "CBC", "padding": "PKCS7" } },
+          { "key": "base64" }
+        ],
+        "bodyTemplate": "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><ExecuteCommand xmlns=\"http://tempuri.org/\"><PartnerGUID>{{ cred.PartnerGUID }}</PartnerGUID><EncryptedCommandData>{{ payload }}</EncryptedCommandData></ExecuteCommand></soap:Body></soap:Envelope>",
+        "responseMap": {
+          "envelope": { "format": "json", "payloadPath": "d" },
+          "transforms": [
+            { "key": "gzip" },
+            { "key": "aes-cbc", "options": { "secretRef": "PartnerToken" } },
+            { "key": "base64" }
+          ],
+          "result": { "format": "xml" }
+        }
+      }
+    ],
+    "headers": []
+  },
+  {
+    "code": "HILO",
+    "name": "HILO T-VAN",
+    "environment": "UAT",
+    "baseUrl": "https://uatapitctn.hilo.com.vn",
+    "isActive": true,
+    "priority": 20,
+    "timeoutSeconds": 60,
+    "authSchemeKey": "login-token",
+    "_secretKeys": ["TaxCode", "UserName", "Password", "MNGui", "MNNhan", "CallbackBaseUrl", "CallbackSecret"],
+    "_note": "Tai lieu khong ghi base URL Production va khong mo ta payload webhook. callbackMap ben duoi la gia dinh, phai confirm voi Hilo truoc khi len PROD.",
+    "authConfig": {
+      "loginPath": "/api/authentication/gettoken",
+      "bodyTemplate": "{\"TaxCode\":\"{{ cred.TaxCode }}\",\"UserName\":\"{{ cred.UserName }}\",\"Password\":\"{{ cred.Password }}\"}",
+      "format": "json",
+      "tokenPath": "Data.accessToken",
+      "successPath": "Code",
+      "successValues": ["200"],
+      "messagePath": "Information",
+      "headerName": "Authorization",
+      "headerFormat": "Bearer {{ msg.token }}",
+      "ttlSeconds": 1800
+    },
+    "callbackMap": {
+      "format": "json",
+      "correlationPath": "Data.MTDTChieu",
+      "codePath": "Data.Response[0].MLTDiep",
+      "messagePath": "Data.Response[0].Message",
+      "successValues": ["999", "202", "204"],
+      "secretHeader": "X-Callback-Token",
+      "secretRef": "CallbackSecret"
+    },
+    "headers": [
+      {
+        "name": "CallBackUrl",
+        "valueTemplate": "{{ cred.CallbackBaseUrl }}/api/tvan/callbacks/HILO",
+        "order": 1
+      }
+    ],
+    "endpoints": [
+      {
+        "operationCode": "send-registration",
+        "httpMethod": "POST",
+        "pathTemplate": "/api/einvoicesolution/send",
+        "contentType": "application/json",
+        "args": { "PBan": "2.1.0", "MLTDiep": "100", "SLuong": "1" },
+        "requestTransforms": [],
+        "bodyTemplate": "{\"PBan\":\"{{ msg.PBan }}\",\"MNGui\":\"{{ cred.MNGui }}\",\"MNNhan\":\"{{ cred.MNNhan }}\",\"MLTDiep\":{{ msg.MLTDiep }},\"MTDiep\":\"{{ msg.MTDiep }}\",\"MST\":\"{{ msg.MST }}\",\"SLuong\":{{ msg.SLuong }},\"XmlData\":[{\"Xml\":{{ msg.Xml | json_string }}}]}",
+        "responseMap": {
+          "result": {
+            "format": "json",
+            "successPath": "Code",
+            "successValues": ["200"],
+            "messagePath": "Information",
+            "referencePath": "Data.MTDiep"
+          }
+        }
+      },
+      {
+        "operationCode": "send-invoice-coded",
+        "httpMethod": "POST",
+        "pathTemplate": "/api/einvoicesolution/send",
+        "contentType": "application/json",
+        "args": { "PBan": "2.1.0", "MLTDiep": "200", "SLuong": "1" },
+        "requestTransforms": [],
+        "bodyTemplate": "{\"PBan\":\"{{ msg.PBan }}\",\"MNGui\":\"{{ cred.MNGui }}\",\"MNNhan\":\"{{ cred.MNNhan }}\",\"MLTDiep\":{{ msg.MLTDiep }},\"MTDiep\":\"{{ msg.MTDiep }}\",\"MST\":\"{{ msg.MST }}\",\"SLuong\":{{ msg.SLuong }},\"XmlData\":[{\"Xml\":{{ msg.Xml | json_string }}}]}",
+        "responseMap": {
+          "result": {
+            "format": "json",
+            "successPath": "Code",
+            "successValues": ["200"],
+            "messagePath": "Information",
+            "referencePath": "Data.MTDiep"
+          }
+        }
+      },
+      {
+        "operationCode": "send-invoice-uncoded",
+        "httpMethod": "POST",
+        "pathTemplate": "/api/einvoicesolution/send",
+        "contentType": "application/json",
+        "args": { "PBan": "2.1.0", "MLTDiep": "203", "SLuong": "1" },
+        "requestTransforms": [],
+        "bodyTemplate": "{\"PBan\":\"{{ msg.PBan }}\",\"MNGui\":\"{{ cred.MNGui }}\",\"MNNhan\":\"{{ cred.MNNhan }}\",\"MLTDiep\":{{ msg.MLTDiep }},\"MTDiep\":\"{{ msg.MTDiep }}\",\"MST\":\"{{ msg.MST }}\",\"SLuong\":{{ msg.SLuong }},\"XmlData\":[{\"Xml\":{{ msg.Xml | json_string }}}]}",
+        "responseMap": {
+          "result": {
+            "format": "json",
+            "successPath": "Code",
+            "successValues": ["200"],
+            "messagePath": "Information",
+            "referencePath": "Data.MTDiep"
+          }
+        }
+      },
+      {
+        "operationCode": "send-error-notice",
+        "httpMethod": "POST",
+        "pathTemplate": "/api/einvoicesolution/send",
+        "contentType": "application/json",
+        "args": { "PBan": "2.1.0", "MLTDiep": "300", "SLuong": "1" },
+        "requestTransforms": [],
+        "bodyTemplate": "{\"PBan\":\"{{ msg.PBan }}\",\"MNGui\":\"{{ cred.MNGui }}\",\"MNNhan\":\"{{ cred.MNNhan }}\",\"MLTDiep\":{{ msg.MLTDiep }},\"MTDiep\":\"{{ msg.MTDiep }}\",\"MST\":\"{{ msg.MST }}\",\"SLuong\":{{ msg.SLuong }},\"XmlData\":[{\"Xml\":{{ msg.Xml | json_string }}}]}",
+        "responseMap": {
+          "result": {
+            "format": "json",
+            "successPath": "Code",
+            "successValues": ["200"],
+            "messagePath": "Information",
+            "referencePath": "Data.MTDiep"
+          }
+        }
+      },
+      {
+        "operationCode": "send-summary",
+        "httpMethod": "POST",
+        "pathTemplate": "/api/einvoicesolution/send",
+        "contentType": "application/json",
+        "args": { "PBan": "2.1.0", "MLTDiep": "400", "SLuong": "1" },
+        "requestTransforms": [],
+        "bodyTemplate": "{\"PBan\":\"{{ msg.PBan }}\",\"MNGui\":\"{{ cred.MNGui }}\",\"MNNhan\":\"{{ cred.MNNhan }}\",\"MLTDiep\":{{ msg.MLTDiep }},\"MTDiep\":\"{{ msg.MTDiep }}\",\"MST\":\"{{ msg.MST }}\",\"SLuong\":{{ msg.SLuong }},\"XmlData\":[{\"Xml\":{{ msg.Xml | json_string }}}]}",
+        "responseMap": {
+          "result": {
+            "format": "json",
+            "successPath": "Code",
+            "successValues": ["200"],
+            "messagePath": "Information",
+            "referencePath": "Data.MTDiep"
+          }
+        }
+      },
+      {
+        "operationCode": "send-invoice-pos",
+        "httpMethod": "POST",
+        "pathTemplate": "/api/einvoicesolution/sendpos",
+        "contentType": "application/json",
+        "args": {},
+        "requestTransforms": [],
+        "bodyTemplate": "{\"Xml\":{{ msg.Xml | json_string }}}",
+        "responseMap": {
+          "result": {
+            "format": "json",
+            "successPath": "Code",
+            "successValues": ["200"],
+            "messagePath": "Information",
+            "referencePath": "Data.MTDiep"
+          }
+        }
+      },
+      {
+        "operationCode": "query-result",
+        "httpMethod": "GET",
+        "pathTemplate": "/api/einvoicesolution/get?MTDiep={{ msg.MTDiep | url_encode }}",
+        "contentType": "application/json",
+        "args": {},
+        "requestTransforms": [],
+        "bodyTemplate": "",
+        "responseMap": {
+          "result": {
+            "format": "json",
+            "successPath": "Code",
+            "successValues": ["200"],
+            "messagePath": "Information",
+            "referencePath": "Data.MTDiep"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "code": "MINVOICE",
+    "name": "Minvoice mTVAN",
+    "environment": "UAT",
+    "baseUrl": "https://testmtvan.minvoice.net",
+    "isActive": true,
+    "priority": 30,
+    "timeoutSeconds": 60,
+    "authSchemeKey": "login-token",
+    "_secretKeys": ["username", "password", "ma_dvcs", "mstTcgp"],
+    "_note": "Tai lieu ghi 'Bear' chu khong phai 'Bearer' - lap lai nhat quan o ca 8 muc nghiep vu. Minvoice khong co API tra cuu ket qua va khong co webhook, nen trang thai Accepted chi co nghia la TVAN da nhan.",
+    "authConfig": {
+      "loginPath": "/Account/Login",
+      "bodyTemplate": "{\"username\":\"{{ cred.username }}\",\"password\":\"{{ cred.password }}\",\"ma_dvcs\":\"{{ cred.ma_dvcs }}\"}",
+      "format": "json",
+      "tokenPath": "token",
+      "successPath": "code",
+      "successValues": ["00"],
+      "messagePath": "message",
+      "headerName": "Authorization",
+      "headerFormat": "Bear {{ msg.token }};{{ cred.ma_dvcs }}",
+      "ttlSeconds": 1800
+    },
+    "headers": [],
+    "endpoints": [
+      {
+        "operationCode": "send-registration",
+        "httpMethod": "POST",
+        "pathTemplate": "/Register/mau01",
+        "contentType": "application/json",
+        "args": {},
+        "requestTransforms": [{ "key": "base64" }],
+        "bodyTemplate": "{\"xmlData\":\"{{ payload }}\",\"mstNnt\":\"{{ msg.MST }}\",\"mstTcgp\":\"{{ cred.mstTcgp }}\",\"transId\":\"{{ msg.TransId }}\"}",
+        "responseMap": {
+          "result": {
+            "format": "json",
+            "successPath": "code",
+            "successValues": ["00"],
+            "messagePath": "message",
+            "referencePath": "data.maThongdiep"
+          }
+        }
+      },
+      {
+        "operationCode": "send-invoice-coded",
+        "httpMethod": "POST",
+        "pathTemplate": "/Invoice/Hdoncma",
+        "contentType": "application/json",
+        "args": {},
+        "requestTransforms": [{ "key": "base64" }],
+        "bodyTemplate": "{\"xmlData\":\"{{ payload }}\",\"mstNnt\":\"{{ msg.MST }}\",\"mstTcgp\":\"{{ cred.mstTcgp }}\",\"transId\":\"{{ msg.TransId }}\"}",
+        "responseMap": {
+          "result": {
+            "format": "json",
+            "successPath": "code",
+            "successValues": ["00"],
+            "messagePath": "message",
+            "referencePath": "data.maThongdiep"
+          }
+        }
+      },
+      {
+        "operationCode": "send-invoice-uncoded",
+        "httpMethod": "POST",
+        "pathTemplate": "/Invoice/Hdonkma",
+        "contentType": "application/json",
+        "args": {},
+        "requestTransforms": [{ "key": "base64" }],
+        "bodyTemplate": "{\"xmlData\":\"{{ payload }}\",\"mstNnt\":\"{{ msg.MST }}\",\"mstTcgp\":\"{{ cred.mstTcgp }}\",\"transId\":\"{{ msg.TransId }}\"}",
+        "responseMap": {
+          "result": {
+            "format": "json",
+            "successPath": "code",
+            "successValues": ["00"],
+            "messagePath": "message",
+            "referencePath": "data.maThongdiep"
+          }
+        }
+      },
+      {
+        "operationCode": "send-invoice-pos",
+        "httpMethod": "POST",
+        "pathTemplate": "/Invoice/Maytinhtien",
+        "contentType": "application/json",
+        "args": {},
+        "requestTransforms": [{ "key": "base64" }],
+        "bodyTemplate": "{\"xmlData\":\"{{ payload }}\",\"mstNnt\":\"{{ msg.MST }}\",\"mstTcgp\":\"{{ cred.mstTcgp }}\",\"transId\":\"{{ msg.TransId }}\"}",
+        "responseMap": {
+          "result": {
+            "format": "json",
+            "successPath": "code",
+            "successValues": ["00"],
+            "messagePath": "message",
+            "referencePath": "data.maThongdiep"
+          }
+        }
+      },
+      {
+        "operationCode": "send-error-notice",
+        "httpMethod": "POST",
+        "pathTemplate": "/CancelInvoice/tbaohuy",
+        "contentType": "application/json",
+        "args": {},
+        "requestTransforms": [{ "key": "base64" }],
+        "bodyTemplate": "{\"xmlData\":\"{{ payload }}\",\"mstNnt\":\"{{ msg.MST }}\",\"mstTcgp\":\"{{ cred.mstTcgp }}\",\"transId\":\"{{ msg.TransId }}\"}",
+        "responseMap": {
+          "result": {
+            "format": "json",
+            "successPath": "code",
+            "successValues": ["00"],
+            "messagePath": "message",
+            "referencePath": "data.maThongdiep"
+          }
+        }
+      },
+      {
+        "operationCode": "send-summary",
+        "httpMethod": "POST",
+        "pathTemplate": "/Invoice/bangtonghop",
+        "contentType": "application/json",
+        "args": {},
+        "requestTransforms": [{ "key": "base64" }],
+        "bodyTemplate": "{\"xmlData\":\"{{ payload }}\",\"mstNnt\":\"{{ msg.MST }}\",\"mstTcgp\":\"{{ cred.mstTcgp }}\",\"transId\":\"{{ msg.TransId }}\"}",
+        "responseMap": {
+          "result": {
+            "format": "json",
+            "successPath": "code",
+            "successValues": ["00"],
+            "messagePath": "message",
+            "referencePath": "data.maThongdiep"
+          }
+        }
+      }
+    ]
+  }
+]

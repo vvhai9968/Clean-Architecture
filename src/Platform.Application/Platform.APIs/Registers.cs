@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Platform.Application.Http;
-using Platform.Application.Services.Auth;
 using Platform.Domain.Platform.Auth;
+using Platform.Domain.Platform.Auth.Abstractions;
+using Platform.Infrastructure.Identity;
 using Platform.Infrastructure.Persistence.PlatformContext;
+using Platform.Infrastructure.Tvan;
 using Platform.Shared;
 
 namespace Platform.APIs;
@@ -14,8 +15,13 @@ public static class Registers
     {
         services.AddSingleton<IJwtTokenService, JwtTokenService>();
         services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
-        services.AddSingleton<IRestHttpClient, RestHttpClient>();
-        services.AddScoped<IAuthService, AuthService>();
+
+        // Token của T-VAN được cache ở đây. Chạy nhiều instance thì đổi sang
+        // AddStackExchangeRedisCache để cả cụm dùng chung một token, tránh login lặp.
+        services.AddDistributedMemoryCache();
+
+        services.AddTvanIntegration();
+        services.AddTvanOutboxDispatcher();
     }
 
     public static void AddDbContext(this IServiceCollection services, AppSettings appSettings)

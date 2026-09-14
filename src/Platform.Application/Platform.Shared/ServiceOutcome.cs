@@ -33,19 +33,14 @@ public static class ServiceOutcomeHttp
             });
         }
 
-        if (outcome.Status == HttpStatusCode.NotFound)
-        {
-            return Results.NotFound(new ApiResponse<string>
+        // Trả đúng status mà use case quyết định (401, 403, 404, 502...), thay vì
+        // ép mọi thất bại thành 400 — client phân biệt được "sai dữ liệu" với "không có quyền".
+        return Results.Json(
+            new ApiResponse<string>
             {
-                StatusCode = HttpStatusCode.NotFound,
+                StatusCode = outcome.Status,
                 Message = outcome.Error,
-            });
-        }
-
-        return Results.BadRequest(new ApiResponse<string>
-        {
-            StatusCode = HttpStatusCode.BadRequest,
-            Message = outcome.Error,
-        });
+            },
+            statusCode: (int)outcome.Status);
     }
 }

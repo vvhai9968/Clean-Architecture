@@ -5,6 +5,7 @@ using Microsoft.OpenApi.Models;
 using Platform.APIs;
 using Platform.APIs.Application.MigrateData;
 using Platform.APIs.Endpoints.Auth;
+using Platform.APIs.Endpoints.Tvan;
 using Platform.DotnetExtensions;
 using Platform.Infrastructure.Persistence.PlatformContext;
 using Platform.Shared;
@@ -100,6 +101,7 @@ if (environment.IsDevelopment())
 }
 
 AuthEndPoint.APIs(app);
+TvanEndPoint.APIs(app);
 
 app.MapGet("api/me", (HttpContext http) =>
 {
@@ -115,4 +117,5 @@ app.MapGet("api/me", (HttpContext http) =>
 }).RequireAuthorization();
 
 await DataSeed.SeedAsync(app.Services);
+await TvanSeed.SeedAsync(app.Services, environment);
 app.Run();

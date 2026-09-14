@@ -74,3 +74,6 @@ PublishScripts/
 
 *.mdf
 *.ldf
+
+# T-VAN credentials chua secret that - khong commit
+src/Platform.Application/Platform.APIs/AppSettings/tvan-credentials.json
